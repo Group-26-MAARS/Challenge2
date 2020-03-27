@@ -7,3 +7,8 @@ The user will be able to point their device in the direction of equipment items 
 <br />
 <br />
 Further iterations of Challenge 2 would allow plans to be much more elaborate and customizable by both the engineers and technicians. The engineers could make, for example, a test plan for a new equipment item based on a time interval, number of uses and visual cue (with the use of a network). The application will recognize that item and display the correct status based on that testing plan to technicians. I imagine this could be expanded even further to display the test plan for the technician to follow or potentially launching Challenge 1: Procedure Generation when the item is due for testing where they could follow the procedures and relay that information back to Challenge 2 to update the status.
+
+[Challenge 2 Status Updates](https://github.com/Group-26-MAARS/Challenge2/wiki/Status-updates)
+<br />
+[MAARS Overall Plan](https://docs.google.com/spreadsheets/d/1A2VIlG67v9AgYwH274A-6jHQkhKnN12LfQCSEbdCnYE/edit?usp=sharing)
+
