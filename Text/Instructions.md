@@ -1,1 +1,1 @@
-temp
+To check the status of a plant, point your device in the direction of that plants displayed QR code. Other plants whose QR codes are sufficiently visible will also appear. The statuses are Red: Overdue, Orange: Due, Yellow: Coming Due and Green: Watered. After watering a plant, you will want to indicate that you have done so. Do this by open the menu labeled "Plant List" the plants that have been seen and their statuses will appear there. Click the colored status and it will change to green.
