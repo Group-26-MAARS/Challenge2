@@ -11,4 +11,6 @@ Further iterations of Challenge 2 would allow plans to be much more elaborate an
 [Challenge 2 Status Updates](https://github.com/Group-26-MAARS/Challenge2/wiki/Status-updates)
 <br />
 [MAARS Overall Plan](https://docs.google.com/spreadsheets/d/1A2VIlG67v9AgYwH274A-6jHQkhKnN12LfQCSEbdCnYE/edit?usp=sharing)
+<br />
+[Demo Progress Update 04/02](https://youtu.be/Ez9RESykac0)
 
