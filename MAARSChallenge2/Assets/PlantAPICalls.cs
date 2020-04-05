@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Net;
-using System;
 using System.IO;
 using UnityEngine.Networking;
 
@@ -12,7 +11,7 @@ public class PlantAPICalls : MonoBehaviour
     public void get()
     {
         // A correct website page.
-        StartCoroutine(GetRequest("https://maars-api.herokuapp.com/"));
+        StartCoroutine(GetRequest("https://maars-api.herokuapp.com/equipment/id"));
 
     }
 
