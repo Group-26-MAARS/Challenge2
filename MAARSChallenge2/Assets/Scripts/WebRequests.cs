@@ -107,27 +107,21 @@ public class WebRequests : MonoBehaviour
                 sb.Append(dict.Key).Append(": \t[").Append(dict.Value).Append("]\n");
             }
 
-            // Print Headers
-            // Debug.Log(sb.ToString());
-
-            // Print Body
-            //Debug.Log(www.downloadHandler.text);
 
             Plant obj = Plant.CreateFromJSON(www.downloadHandler.text);
 
-            Debug.Log(obj.daysOver);
-            Debug.Log(obj.dateOfLastService);
-        
+            double daysElapsed = obj.getDaysElapsed();
+            obj.showStatus(daysElapsed);
         }
-
-
     }
-
 }
 
 [Serializable]
-class Plant
+public class Plant
 {
+    // Another option DateTime utcDate = DateTime.UtcNow;
+    public DateTime currentDate = DateTime.Now;
+    private double daysElapsed;
     public int daysOver;
     public int _id;
     public string dateOfLastService;
@@ -137,6 +131,43 @@ class Plant
     public static Plant CreateFromJSON(string jsonString)
     {
         return JsonUtility.FromJson<Plant>(jsonString);
+    }
+
+    public double getDaysElapsed()
+    {
+        string[] words = dateOfLastService.Split('-', 'T');
+        int year = Int32.Parse(words[0]);
+        int month = Int32.Parse(words[1]);
+        int day = Int32.Parse(words[2]);
+
+        DateTime saveDate = new DateTime(year, month, day);
+        return (currentDate - saveDate).TotalDays;
+    }
+
+    public void showStatus(double daysElapsed)
+    {
+      
+        if (daysElapsed > 5)
+        {
+            // show red
+            Debug.Log("OverDue");
+
+        }
+        else if (daysElapsed <= 5 && daysElapsed > 3)
+        {
+            // show orange
+            Debug.Log("Due");
+        }
+        else if (daysElapsed <= 3 && daysElapsed > 2)
+        {
+            // show yellow
+            Debug.Log("ComingDue");
+        }
+        else
+        {
+            // show green
+            Debug.Log("A okay");
+        }
     }
 
 
