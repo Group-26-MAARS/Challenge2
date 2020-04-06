@@ -10,37 +10,58 @@ using System.IO;
 
 public class GetStatus : MonoBehaviour
 {
-    public String id;
+    // get the local date and universal date
+    private DateTime curDate = DateTime.Now;
+    // Another option DateTime utcDate = DateTime.UtcNow;
+
+    private DateTime plantSaveDate;
+    private double daysElapsed;
+
+    // Debug.Log("This is the date" + localDate);
 
     public void getStatus(int ID)
     {
-        // get the ID of the current image target which is the same as the plant ID to use as the key in database
-        // Make API call to get the date of last service for that plant ID
-        // Get the curent month and day
-        // compare current date and the date recived from api get the total number of days that have passed
-        // make funcion call or set up enum to display proper status
+        // test with specfic year,month,day
+        plantSaveDate = new DateTime(2020, 4, 3);
 
+        // calculate the number of days elapsed
+        daysElapsed = getDaysElapsed(curDate, plantSaveDate);
 
-        // get the local date and universal date
-        // DateTime localDate = DateTime.Now;
-        // DateTime utcDate = DateTime.UtcNow;
-
-        // Debug.Log("This is the date" + localDate);
-        // Debug.Log("This is the date utcDate" + utcDate);
-
-       
+        // show the status of the plant
+        showStatus(daysElapsed);
 
     }
+    
+    // create a method that returns a plant object and in that plant obj we can get the id and 
+    // date.
 
-    // get the id to get the QR code
-    public void setID(String ID)
+    // calculate how many days have passed
+    private double getDaysElapsed(DateTime curDate, DateTime saveDate)
     {
-        id = ID;
+        return (curDate - saveDate).TotalDays;
     }
 
-    private void displayStatus()
+    private void showStatus(double daysElapsed)
     {
-        // nada right now.
+        if (daysElapsed > 5)
+        {
+            // show red
+            Debug.Log("OverDue");
+
+        } else if (daysElapsed <= 5 && daysElapsed > 3) 
+        {
+            // show orange
+            Debug.Log("Due");
+        } else if (daysElapsed <= 3 && daysElapsed > 2)
+        {
+            // show yellow
+            Debug.Log("ComingDue");
+        } else
+        {
+            // show green
+            Debug.Log("A okay");
+        }
     }
+
 
 }

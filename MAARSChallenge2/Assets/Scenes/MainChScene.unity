@@ -523,7 +523,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cf8179781e7b3844933c4a3d11fdfde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 
 --- !u!33 &186339567
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -2219,7 +2218,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cf8179781e7b3844933c4a3d11fdfde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 5e23783f9dd9920017196ec5
 --- !u!21 &1461713149
 Material:
   serializedVersion: 6
@@ -2709,7 +2707,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cf8179781e7b3844933c4a3d11fdfde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  id: 
 --- !u!33 &2113553381
 MeshFilter:
   m_ObjectHideFlags: 0
