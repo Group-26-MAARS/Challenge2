@@ -4,21 +4,35 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
+using Vuforia;
+
+// It seems we will need to creat a list of all the plants in the Database
+// get all the plants 
+// parse into individule plants
+// save the status
+// when that one is seen show the status
 
 public class WebRequests : MonoBehaviour
 {
     // API Addresses
-    // Could simplify into one and append in methods 
     readonly string getAllURL = "https://maars-api.herokuapp.com/equipment";
     readonly string getWithIDURL = "https://maars-api.herokuapp.com/equipment/";
     readonly string postURL = "https://maars-api.herokuapp.com/equipment/new";
 
     // the type of the current id will be determined by Vuforia
-    private int curID = -9000;
-
+    private int curID;
     // The type must be an int to create a new plant
     private int newID = -9000;
+    public List<string> trackList = new List<string>(); 
+   
 
+    // the type of the current id will be determined by Vuforia
+    public void getID()
+    {
+            // curID = Int32.Parse(tb.TrackableName);
+    }
+
+ // ---------------------------------------------------------------------------------
     // Gets all the plants in the Data base
     public void onButtonGet()
     {
@@ -49,7 +63,7 @@ public class WebRequests : MonoBehaviour
             Debug.Log(www.downloadHandler.text);
         }
     }
-
+// ----------------------------------------------------------------------------------
     // creating a new plant from genarated _id 
     public void onButtonPost()
     {
@@ -75,6 +89,7 @@ public class WebRequests : MonoBehaviour
             }
         }
     }
+    //-------------------------------------------------------------------------------
 
     // get specfic plant information
     public void onButtonGetWithID()
@@ -115,7 +130,7 @@ public class WebRequests : MonoBehaviour
         }
     }
 }
-
+// --------------------------------------------------------------------------------
 [Serializable]
 public class Plant
 {
@@ -169,6 +184,28 @@ public class Plant
             Debug.Log("A okay");
         }
     }
+}
 
+// -------------------------------------------------------------------------------------------------
+class PlantDictionary
+{
+    public static Dictionary<int, Plant> plantList = new Dictionary<int, Plant>();
 
+    // if the plant hasnt been seen yet add it to the list.
+    public void addPlantToDictionary(int ID, Plant newplant)
+    {
+        plantList.Add(ID, newplant);
+    } 
+
+    // return the plant with that key
+    public Plant getPlantFromDictionary(int ID)
+    {
+        return plantList[ID];
+    }
+
+    // does the plant list contain the current id?
+    public bool containsPlant(int ID)
+    {
+        return plantList.ContainsKey(ID);
+    }
 }
