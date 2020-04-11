@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Newtonsoft.Json;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -44,9 +44,13 @@ public class WebRequests : MonoBehaviour
 
             // Print Headers
             // Debug.Log(sb.ToString());
+            PlantCollection plantList = new PlantCollection();
 
-            // Print Body
-            Debug.Log(www.downloadHandler.text);
+           // Get the Jason convert it to a string
+            string rawJSON = www.downloadHandler.text.ToString();
+            // Make a list of plant objs
+            plantList.PlantList = JsonConvert.DeserializeObject<List<Plant>>(rawJSON);
+            Debug.LogError(plantList.PlantList.Count);
         }
     }
 
@@ -107,37 +111,23 @@ public class WebRequests : MonoBehaviour
                 sb.Append(dict.Key).Append(": \t[").Append(dict.Value).Append("]\n");
             }
 
+
+
+
             // Print Headers
             // Debug.Log(sb.ToString());
 
             // Print Body
             //Debug.Log(www.downloadHandler.text);
 
-            Plant obj = Plant.CreateFromJSON(www.downloadHandler.text);
+            //Plant obj = Plant.CreateFromJSON(www.downloadHandler.text);
 
-            Debug.Log(obj.daysOver);
-            Debug.Log(obj.dateOfLastService);
-        
+            //Debug.Log(obj.daysOver);
+            //Debug.Log(obj.dateOfLastService);
+
         }
 
 
     }
-
-}
-
-[Serializable]
-class Plant
-{
-    public int daysOver;
-    public int _id;
-    public string dateOfLastService;
-    // we will deal with qr list later
-
-
-    public static Plant CreateFromJSON(string jsonString)
-    {
-        return JsonUtility.FromJson<Plant>(jsonString);
-    }
-
 
 }
