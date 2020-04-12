@@ -5,22 +5,24 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
 
-public class WebRequests : MonoBehaviour
+
+public class WebReq : MonoBehaviour
 {
+
     // API Addresses
     // Could simplify into one and append in methods 
     readonly string getAllURL = "https://maars-api.herokuapp.com/equipment";
     readonly string getWithIDURL = "https://maars-api.herokuapp.com/equipment/";
     readonly string postURL = "https://maars-api.herokuapp.com/equipment/new";
 
-    // the type of the current id will be determined by Vuforia
-
     // The type must be an int to create a new plant
     private int newID = -9000;
 
+    // Start is called before the first frame update
     // Gets all the plants in the Data base
-    public void onButtonGet()
+    void Start()
     {
+        Debug.LogError("Star Starr");
         StartCoroutine(getRequest(getAllURL));
     }
 
@@ -45,7 +47,7 @@ public class WebRequests : MonoBehaviour
             // Debug.Log(sb.ToString());
             PlantCollection plantList = new PlantCollection();
 
-           // Get the Jason convert it to a string
+            // Get the Jason convert it to a string
             string rawJSON = www.downloadHandler.text.ToString();
             // Make a list of plant objs
             plantList.PlantList = JsonConvert.DeserializeObject<List<Plant>>(rawJSON);
@@ -130,3 +132,4 @@ public class WebRequests : MonoBehaviour
     }
 
 }
+

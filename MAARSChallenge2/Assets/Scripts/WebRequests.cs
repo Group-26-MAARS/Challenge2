@@ -19,8 +19,9 @@ public class WebRequests : MonoBehaviour
     private int newID = -9000;
 
     // Gets all the plants in the Data base
-    public void onButtonGet()
+   void start()
     {
+        Debug.LogError("START STARR");
         StartCoroutine(getRequest(getAllURL));
     }
 
