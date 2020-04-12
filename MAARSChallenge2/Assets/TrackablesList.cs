@@ -6,7 +6,7 @@ using Vuforia;
 
 public class TrackablesList : MonoBehaviour
 {
-    private PlantDictionary PlantList = new PlantDictionary();
+ 
 
     public List<int> trackList = new List<int>();
     // Update is called once per frame

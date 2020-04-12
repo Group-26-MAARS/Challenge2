@@ -14,7 +14,6 @@ public class WebRequests : MonoBehaviour
     readonly string postURL = "https://maars-api.herokuapp.com/equipment/new";
 
     // the type of the current id will be determined by Vuforia
-    private int curID = -9000;
 
     // The type must be an int to create a new plant
     private int newID = -9000;
@@ -81,7 +80,7 @@ public class WebRequests : MonoBehaviour
     }
 
     // get specfic plant information
-    public void onButtonGetWithID()
+    public void onButtonGetWithID(int curID)
     {
         StartCoroutine(getSpecficPlant(getWithIDURL, curID));
     }
