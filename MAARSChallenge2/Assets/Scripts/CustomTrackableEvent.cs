@@ -135,6 +135,7 @@ public class CustomTrackableEvent : MonoBehaviour
             var colliderComponents = mTrackableBehaviour.GetComponentsInChildren<Collider>(true);
             var canvasComponents = mTrackableBehaviour.GetComponentsInChildren<Canvas>(true);
            // PlantCollection pm = new PlantCollection();
+
            int imageTargetName = Int32.Parse(mTrackableBehaviour.name);
            // Debug.LogError(imageTargetName);
 

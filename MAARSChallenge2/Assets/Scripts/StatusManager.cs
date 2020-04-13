@@ -11,16 +11,16 @@ public static class StatusManager
         switch (statusIndicator)
         {
             case 1:
-                Debug.LogError("Case 1");
+                Debug.LogError("All Good");
                 break;
             case 2:
-                Debug.LogError("Case 2");
+                Debug.LogError("Coming Due");
                 break;
             case 3:
-                Debug.LogError("Case 3");
+                Debug.LogError("Due");
                 break;
             case 4:
-                Debug.LogError("Case 4");
+                Debug.LogError("Overdue");
                 break;
             default:
                 Debug.LogError("Default case");
