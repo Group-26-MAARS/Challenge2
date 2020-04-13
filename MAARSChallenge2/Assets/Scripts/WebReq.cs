@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
@@ -18,11 +19,13 @@ public class WebReq : MonoBehaviour
     // The type must be an int to create a new plant
     private int newID = -9000;
 
+    public DateTime currentDate = DateTime.Now;
+
     // Start is called before the first frame update
     // Gets all the plants in the Data base
     void Start()
     {
-        Debug.LogError("Star Starr");
+        // When the Program Loads make the API request to get all the plants.
         StartCoroutine(getRequest(getAllURL));
     }
 
@@ -36,22 +39,53 @@ public class WebReq : MonoBehaviour
         }
         else
         {
-            Debug.Log("Got the Get");
+            Debug.Log("Request successful! All plants loaded");
             StringBuilder sb = new StringBuilder();
             foreach (System.Collections.Generic.KeyValuePair<string, string> dict in www.GetResponseHeaders())
             {
                 sb.Append(dict.Key).Append(": \t[").Append(dict.Value).Append("]\n");
             }
 
-            // Print Headers
-            // Debug.Log(sb.ToString());
-            PlantCollection plantList = new PlantCollection();
-
             // Get the Jason convert it to a string
             string rawJSON = www.downloadHandler.text.ToString();
-            // Make a list of plant objs
+
+            // create a new plant collection that holds the list of plants
+            PlantCollection plantList = new PlantCollection();
+
+            // Make the list of plant objs fro the raw JSON
             plantList.PlantList = JsonConvert.DeserializeObject<List<Plant>>(rawJSON);
-            Debug.LogError(plantList.PlantList.Count);
+
+            // Calculat the proper status for each of the plants and set that field
+            // for each plant obj.
+            foreach (Plant p in plantList.PlantList)
+            {
+                double numDays = (currentDate - p.dateOfLastService).TotalDays;
+                Debug.LogError(numDays);
+
+                if (numDays >= 9)
+                {
+                    p.Status = 4;  // Overdue
+
+                }
+                else if (numDays < 9 && numDays >= 5)
+                {
+                    p.Status = 3; // Due
+
+                }
+                else if (numDays < 5 && numDays >= 3)
+                {
+                    p.Status = 2; // Coming Due
+                }
+                else
+                {
+                    p.Status = 1; // All Good *Sunglasses Emoji*
+                }
+
+                // Note: This can (and should) be moved to another method.
+                // Note: A field should be added to the DB to allow for more dynamic schedules. Allowing the user
+                // to specify exact intervals for each status when adding the plant to the DB. (Will do this if there is time)
+                // instead of having the hard coded values we could get the intervals from the plant objs
+            }
         }
     }
 

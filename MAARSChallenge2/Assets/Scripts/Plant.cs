@@ -8,7 +8,7 @@ public class Plant
     public DateTime dateOfLastService { get; set; }
     public QrCode qrCode { get; set; }
     public int __v { get; set; }
-    public string Status;
+    public int Status;
    
 
 }
