@@ -17,7 +17,7 @@ public class WebReq : MonoBehaviour
     readonly string postURL = "https://maars-api.herokuapp.com/equipment/new";
 
     // The type must be an int to create a new plant
-    private int newID = -9000;
+    private int newID = -300;
 
     public DateTime currentDate = DateTime.Now;
 
@@ -50,18 +50,17 @@ public class WebReq : MonoBehaviour
             string rawJSON = www.downloadHandler.text.ToString();
 
             // create a new plant collection that holds the list of plants
-            PlantCollection plantList = new PlantCollection();
+            //PlantCollection plantList = new PlantCollection();
 
             // Make the list of plant objs fro the raw JSON
-            plantList.PlantList = JsonConvert.DeserializeObject<List<Plant>>(rawJSON);
+             PlantCollection.PlantList = JsonConvert.DeserializeObject<List<Plant>>(rawJSON);
 
             // Calculat the proper status for each of the plants and set that field
             // for each plant obj.
-            foreach (Plant p in plantList.PlantList)
+            foreach (Plant p in PlantCollection.PlantList)
             {
                 double numDays = (currentDate - p.dateOfLastService).TotalDays;
-                Debug.LogError(numDays);
-
+             
                 if (numDays >= 9)
                 {
                     p.Status = 4;  // Overdue
