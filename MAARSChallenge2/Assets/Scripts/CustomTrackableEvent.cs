@@ -14,6 +14,9 @@ public class CustomTrackableEvent : MonoBehaviour
 /// Changes made to this file could be overwritten when upgrading the Vuforia version.
 /// When implementing custom event handler behavior, consider inheriting from this class instead.
 /// </summary>
+/// 
+
+   
 
     public enum TrackingStatusFilter
     {
@@ -131,6 +134,9 @@ public class CustomTrackableEvent : MonoBehaviour
     {
         if (mTrackableBehaviour)
         {
+            int status = 0;
+            DateTime dateOfLastService = DateTime.Now;
+
             var rendererComponents = mTrackableBehaviour.GetComponentsInChildren<Renderer>(true);
             var colliderComponents = mTrackableBehaviour.GetComponentsInChildren<Collider>(true);
             var canvasComponents = mTrackableBehaviour.GetComponentsInChildren<Canvas>(true);
@@ -139,21 +145,51 @@ public class CustomTrackableEvent : MonoBehaviour
            int imageTargetName = Int32.Parse(mTrackableBehaviour.name);
            // Debug.LogError(imageTargetName);
 
-
-            // Enable rendering:
-            foreach (var component in rendererComponents)
-                component.enabled = true;
-
             // Show the status of the plant
             foreach (Plant p in PlantCollection.PlantList)
             {
                 if (p._id == imageTargetName)
                 {
-                    StatusManager.Status(p.Status);
-                    Debug.LogError(imageTargetName);
+                    status = p.Status;
+                    dateOfLastService = p.dateOfLastService;
+                    //StatusManager.Status(p.Status);
+                    //Debug.LogError(imageTargetName);
 
                 }
             }
+ 
+            // Enable rendering:
+            foreach (var component in rendererComponents)
+            {
+
+                if (status == 1 && component.name == "OK")
+                {
+                    Debug.Log("Plant ID: " + mTrackableBehaviour.name + ", Status: OK, " + "Date of last service: " + dateOfLastService);
+                    component.enabled = true;
+                }
+                else if (status == 2 && component.name == "CD")
+                {
+                    Debug.Log("Plant ID: " + mTrackableBehaviour.name + ", Status: Coming Due, " + "Date of last service: " + dateOfLastService);
+                    component.enabled = true;
+                }
+                else if (status == 3 && component.name == "D")
+                {
+                    Debug.Log("Plant ID: " + mTrackableBehaviour.name + ", Status: Due, " + "Date of last service: " + dateOfLastService);
+                    component.enabled = true;
+                }
+                else if (status == 4 && component.name == "OD")
+                {
+                    Debug.Log("Plant ID: " + mTrackableBehaviour.name + ", Status: OverDue, " + "Date of last service: " + dateOfLastService);
+                    component.enabled = true;
+                } else
+                {
+                    // we will see 
+                }
+      
+            }
+               
+
+
 
 
             // Enable colliders:
