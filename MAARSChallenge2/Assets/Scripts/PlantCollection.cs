@@ -48,20 +48,4 @@ public static class PlantCollection
             IDs.Add((int)p._id);
         }
     }
-    
-    // get the url from the plant thats been created
-    public static string urlToDisplay ()
-    {
-        foreach (Plant p in plantList)
-        {
-            if (p._id == currentID)
-            {
-                qrImageURL = p.qrCode.link;
-            }
-        }
-        return qrImageURL;
-    }
-   
-
-
 }

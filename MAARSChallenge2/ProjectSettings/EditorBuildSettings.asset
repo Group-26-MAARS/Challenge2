@@ -14,7 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainChScene.unity
     guid: fedc1c68171494048a42ac71381dcc42
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/AddPlantScene.unity
     guid: bbad5743e88fd9141a957f478b11070c
   m_configObjects: {}

@@ -16,11 +16,10 @@ public class WebReq : MonoBehaviour
     readonly string getWithIDURL = "https://maars-api.herokuapp.com/equipment/";
     readonly string postURL = "https://maars-api.herokuapp.com/equipment/new";
     readonly string newQRURL;
-    
-
-    // The type must be an int to create a new plant
+    public RawImage QRImage;
+    private string qrLink;
+    private int flag = 0;
     private int newID;
-
     public DateTime currentDate = DateTime.Now;
 
     // Start is called before the first frame update
@@ -57,6 +56,7 @@ public class WebReq : MonoBehaviour
             // Make the list of plant objs fro the raw JSON
              PlantCollection.PlantList = JsonConvert.DeserializeObject<List<Plant>>(rawJSON);
             Debug.LogError(PlantCollection.PlantList.Count);
+
             // Calculat the proper status for each of the plants and set that field
             // for each plant obj.
             foreach (Plant p in PlantCollection.PlantList)
@@ -87,6 +87,12 @@ public class WebReq : MonoBehaviour
                 // to specify exact intervals for each status when adding the plant to the DB. (Will do this if there is time)
                 // instead of having the hard coded values we could get the intervals from the plant objs
             }
+
+            if (flag == 1)
+            {
+                qrLink = PlantCollection.PlantList[PlantCollection.PlantList.Count - 1].qrCode.link;
+                displayQR(qrLink);
+            }
         }
     }
 
@@ -114,20 +120,17 @@ public class WebReq : MonoBehaviour
             }
             else
             {
-                Debug.Log("Form upload complete!");  
+                Debug.Log("Form upload complete!");
 
+                flag = 1;
                 // Update Plant List.
                 Start();
-
-                // display the new QR code to the user
-                displayQR();
-               
             }
         }
     }
 
     // get specfic plant information
-    public void onButtonGetWithID(int curID)
+    public void GetWithID(int curID)
     {
         StartCoroutine(getSpecficPlant(getWithIDURL, curID));
     }
@@ -176,17 +179,9 @@ public class WebReq : MonoBehaviour
 
     }
 
-    /// <summary>
-    /// Attempting to show new QR code. Will try out in another project
-    /// then implement here.
-    /// </summary>
-    public RawImage newQR;
-    private  String qrImageURL;
-
-    void displayQR()
+    public void displayQR(String URL)
     {
-        qrImageURL = PlantCollection.urlToDisplay();
-        StartCoroutine(loadSpriteImageFromUrl(qrImageURL));
+       StartCoroutine(loadSpriteImageFromUrl(URL));
     }
 
     IEnumerator loadSpriteImageFromUrl(string URL)
@@ -200,8 +195,9 @@ public class WebReq : MonoBehaviour
         }
         else
         {
+            Debug.LogError("Texture succesfuly loaded");
             Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
-            newQR.texture = myTexture;
+            QRImage.texture = myTexture;
         }
     }
 
