@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
-
+using UnityEngine.UI;
 
 public class WebReq : MonoBehaviour
 {
@@ -15,9 +15,11 @@ public class WebReq : MonoBehaviour
     readonly string getAllURL = "https://maars-api.herokuapp.com/equipment";
     readonly string getWithIDURL = "https://maars-api.herokuapp.com/equipment/";
     readonly string postURL = "https://maars-api.herokuapp.com/equipment/new";
+    readonly string newQRURL;
+    
 
     // The type must be an int to create a new plant
-    private int newID = -300;
+    private int newID;
 
     public DateTime currentDate = DateTime.Now;
 
@@ -54,13 +56,13 @@ public class WebReq : MonoBehaviour
 
             // Make the list of plant objs fro the raw JSON
              PlantCollection.PlantList = JsonConvert.DeserializeObject<List<Plant>>(rawJSON);
-
+            Debug.LogError(PlantCollection.PlantList.Count);
             // Calculat the proper status for each of the plants and set that field
             // for each plant obj.
             foreach (Plant p in PlantCollection.PlantList)
             {
                 double numDays = (currentDate - p.dateOfLastService).TotalDays;
-             
+
                 if (numDays >= 9)
                 {
                     p.Status = 4;  // Overdue
@@ -89,13 +91,16 @@ public class WebReq : MonoBehaviour
     }
 
     // creating a new plant from genarated _id 
-    public void onButtonPost()
+    public void onAddPlantPost()
     {
+        // Get the newly generated id
+        newID = PlantCollection.genNewID();
         StartCoroutine(newReqest(postURL, newID));
     }
 
     IEnumerator newReqest(string url, int data)
     {
+
         WWWForm form = new WWWForm();
         form.AddField("_id", data);
 
@@ -109,7 +114,14 @@ public class WebReq : MonoBehaviour
             }
             else
             {
-                Debug.Log("Form upload complete!");
+                Debug.Log("Form upload complete!");  
+
+                // Update Plant List.
+                Start();
+
+                // display the new QR code to the user
+                displayQR();
+               
             }
         }
     }
@@ -162,6 +174,35 @@ public class WebReq : MonoBehaviour
         }
 
 
+    }
+
+    /// <summary>
+    /// Attempting to show new QR code. Will try out in another project
+    /// then implement here.
+    /// </summary>
+    public RawImage newQR;
+    private  String qrImageURL;
+
+    void displayQR()
+    {
+        qrImageURL = PlantCollection.urlToDisplay();
+        StartCoroutine(loadSpriteImageFromUrl(qrImageURL));
+    }
+
+    IEnumerator loadSpriteImageFromUrl(string URL)
+    {
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(URL);
+        yield return www.SendWebRequest();
+
+        if (www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            newQR.texture = myTexture;
+        }
     }
 
 }
