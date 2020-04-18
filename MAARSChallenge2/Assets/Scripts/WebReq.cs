@@ -10,20 +10,25 @@ using UnityEngine.UI;
 public class WebReq : MonoBehaviour
 {
 
-    // API Addresses
-    // Could simplify into one and append in methods 
+    // API Addresses 
     readonly string getAllURL = "https://maars-api.herokuapp.com/equipment";
     readonly string getWithIDURL = "https://maars-api.herokuapp.com/equipment/";
     readonly string postURL = "https://maars-api.herokuapp.com/equipment/new";
-    readonly string newQRURL;
+
+    // In game UI elements an
     public RawImage QRImage;
-    private string qrLink;
-    private int flag = 0;
-    private int newID;
+    public Text showNewQRDate;
+    public Text showNewQRID;
+
+    // Should be taken care of better vars
     public DateTime currentDate = DateTime.Now;
+    private string qrLink;
+    private int newID;
+    private int flag = 0;
+
 
     // Start is called before the first frame update
-    // Gets all the plants in the Data base
+    // Gets all the plants in the DB
     void Start()
     {
         // When the Program Loads make the API request to get all the plants.
@@ -54,7 +59,7 @@ public class WebReq : MonoBehaviour
             //PlantCollection plantList = new PlantCollection();
 
             // Make the list of plant objs fro the raw JSON
-             PlantCollection.PlantList = JsonConvert.DeserializeObject<List<Plant>>(rawJSON);
+            PlantCollection.PlantList = JsonConvert.DeserializeObject<List<Plant>>(rawJSON);
             Debug.LogError(PlantCollection.PlantList.Count);
 
             // Calculat the proper status for each of the plants and set that field
@@ -90,8 +95,11 @@ public class WebReq : MonoBehaviour
 
             if (flag == 1)
             {
+                // get the most recent QR link and id to be displayed
                 qrLink = PlantCollection.PlantList[PlantCollection.PlantList.Count - 1].qrCode.link;
-                displayQR(qrLink);
+                var id = PlantCollection.PlantList[PlantCollection.PlantList.Count - 1]._id;
+
+                displayQR(qrLink, id);
             }
         }
     }
@@ -179,13 +187,18 @@ public class WebReq : MonoBehaviour
 
     }
 
-    public void displayQR(String URL)
+    // Show the OR on screen
+    public void displayQR(String URL, double id)
     {
-       StartCoroutine(loadSpriteImageFromUrl(URL));
+       StartCoroutine(loadSpriteImageFromUrl(URL, id));
     }
 
-    IEnumerator loadSpriteImageFromUrl(string URL)
-    {
+    IEnumerator loadSpriteImageFromUrl(string URL, double ID)
+    {   
+        // create image save name and type
+        string QRID = newID + ".jpg";
+        
+        // get the QR from the URL
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(URL);
         yield return www.SendWebRequest();
 
@@ -196,8 +209,18 @@ public class WebReq : MonoBehaviour
         else
         {
             Debug.LogError("Texture succesfuly loaded");
-            Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            Texture2D myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            
+            // get the QR to display
             QRImage.texture = myTexture;
+
+            // Show the id and Date to user
+            showNewQRDate.text = currentDate.ToString();
+            showNewQRID.text = newID.ToString();
+
+            // Download QR to Photo Lib.
+            byte[] bytes = myTexture.EncodeToJPG();
+            NativeGallery.SaveImageToGallery(bytes, "Saved QR Codes", QRID);
         }
     }
 

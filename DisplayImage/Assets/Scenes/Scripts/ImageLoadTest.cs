@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using System.IO;
+using System.Net;
 
 public class ImageLoadTest : MonoBehaviour
 {
@@ -25,8 +27,17 @@ public class ImageLoadTest : MonoBehaviour
         }
         else
         {
-            Texture myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            Texture2D myTexture = ((DownloadHandlerTexture)www.downloadHandler).texture;
             QR.texture = myTexture;
+
+            byte[] bytes = myTexture.EncodeToJPG();
+
+            NativeGallery.SaveImageToGallery(bytes, "Plants", "300.jpg");
+
+            //var mediaScanIntent =
+            //new Intent(Intent.ActionMediaScannerScanFile);
+            //mediaScanIntent.SetData(_uri);
+            //SendBroadcast(mediaScanIntent);
         }
 
        
