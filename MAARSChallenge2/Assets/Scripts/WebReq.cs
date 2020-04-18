@@ -19,6 +19,7 @@ public class WebReq : MonoBehaviour
     public RawImage QRImage;
     public Text showNewQRDate;
     public Text showNewQRID;
+    public Dropdown plantDD;
 
     // Should be taken care of better vars
     public DateTime currentDate = DateTime.Now;
@@ -92,6 +93,9 @@ public class WebReq : MonoBehaviour
                 // to specify exact intervals for each status when adding the plant to the DB. (Will do this if there is time)
                 // instead of having the hard coded values we could get the intervals from the plant objs
             }
+
+            DropDown.PopulateDropdown(plantDD);
+           
 
             if (flag == 1)
             {
@@ -224,5 +228,9 @@ public class WebReq : MonoBehaviour
         }
     }
 
+    public void updateStatus()
+    {
+        DropDown.updateFromSelection(plantDD);
+    }
 }
 

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 using Vuforia;
 
 public class CustomTrackableEvent : MonoBehaviour
@@ -129,7 +130,7 @@ public class CustomTrackableEvent : MonoBehaviour
 
         return false;
     }
-
+   
     protected virtual void OnTrackingFound()
     {
         if (mTrackableBehaviour)
@@ -140,11 +141,9 @@ public class CustomTrackableEvent : MonoBehaviour
             var rendererComponents = mTrackableBehaviour.GetComponentsInChildren<Renderer>(true);
             var colliderComponents = mTrackableBehaviour.GetComponentsInChildren<Collider>(true);
             var canvasComponents = mTrackableBehaviour.GetComponentsInChildren<Canvas>(true);
-           // PlantCollection pm = new PlantCollection();
 
-           int imageTargetName = Int32.Parse(mTrackableBehaviour.name);
-           // Debug.LogError(imageTargetName);
-
+            int imageTargetName = Int32.Parse(mTrackableBehaviour.name);
+            
             // Show the status of the plant
             foreach (Plant p in PlantCollection.PlantList)
             {
@@ -157,11 +156,11 @@ public class CustomTrackableEvent : MonoBehaviour
 
                 }
             }
- 
+
             // Enable rendering:
             foreach (var component in rendererComponents)
             {
-
+               
                 if (status == 1 && component.name == "OK")
                 {
                     Debug.Log("Plant ID: " + mTrackableBehaviour.name + ", Status: OK, " + "Date of last service: " + dateOfLastService);
@@ -181,13 +180,14 @@ public class CustomTrackableEvent : MonoBehaviour
                 {
                     Debug.Log("Plant ID: " + mTrackableBehaviour.name + ", Status: OverDue, " + "Date of last service: " + dateOfLastService);
                     component.enabled = true;
-                } else
+                } else if(component.name == "TX")
                 {
-                    // we will see 
+                    component.enabled = true;
                 }
+
       
             }
-               
+            
 
 
 
