@@ -14,12 +14,14 @@ public class WebReq : MonoBehaviour
     readonly string getAllURL = "https://maars-api.herokuapp.com/equipment";
     readonly string getWithIDURL = "https://maars-api.herokuapp.com/equipment/";
     readonly string postURL = "https://maars-api.herokuapp.com/equipment/new";
+   
 
     // In game UI elements an
     public RawImage QRImage;
     public Text showNewQRDate;
     public Text showNewQRID;
     public Dropdown plantDD;
+    public Dropdown allPlantsDD;
 
     // Should be taken care of better vars
     public DateTime currentDate = DateTime.Now;
@@ -95,6 +97,7 @@ public class WebReq : MonoBehaviour
             }
 
             DropDown.PopulateDropdown(plantDD);
+            DropDown.PopulateDropdownAll(allPlantsDD);
            
 
             if (flag == 1)
@@ -230,7 +233,13 @@ public class WebReq : MonoBehaviour
 
     public void updateStatus()
     {
-        DropDown.updateFromSelection(plantDD);
+        int id = DropDown.updateFromSelection(plantDD);
+
+    }
+
+    public void deletePlant()
+    {
+        int id = DropDown.deleteFromSelection(allPlantsDD);   
     }
 }
 
