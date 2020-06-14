@@ -1314,8 +1314,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: To Add a plant please click the Add plant buttton. Once the plant is added
-    the QR code will be displayed. Please downlad and print on the material of your
+  m_Text: To Add a plant please click the Add plant button. Once the plant is added
+    the QR code will be displayed. Please download and print on the material of your
     choosing. Apply the QR code to the plant in a highly visible location.
 --- !u!222 &361566954
 CanvasRenderer:
@@ -4297,7 +4297,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'AddPlant
+  m_Text: 'Add Plant
 
 '
 --- !u!222 &1250312804
